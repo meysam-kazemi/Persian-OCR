@@ -6,7 +6,7 @@ A web-based tool built with Gradio and EasyOCR that extracts Persian and English
 
 ### 🎥 Project Demo
 
-![Demo GIF](https://github.com/meysam-kazemi/Persian-OCR/blob/main/demo.gif?raw=true)
+![Demo GIF](https://github.com/meysam-kazemi/Persian-OCR/blob/main/assets/output.png)
 
 ---
 
