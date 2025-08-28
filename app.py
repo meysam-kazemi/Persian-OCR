@@ -1,7 +1,7 @@
 import gradio as gr
 from PIL import Image
 import io
-from ocr_processor import process_image
+from src.ocr_processor import process_image # Assuming ocr_processor.py is in the same directory
 
 def ocr_interface(input_image):
     """
@@ -19,8 +19,9 @@ def ocr_interface(input_image):
         image_bytes = output_byte_stream.getvalue()
 
     try:
-        # Call the original processing function from ocr_processor.py
+        # Call the processing function from ocr_processor.py
         processed_image, extracted_text = process_image(image_bytes)
+        print(extracted_text)
         
         # Provide a default message if no text is found
         if not extracted_text:
@@ -43,9 +44,14 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
 
         with gr.Column(scale=2):
             image_output = gr.Image(label="Processed Image")
-            text_output = gr.Textbox(label="Extracted Text", lines=10, interactive=False)
+            
+            # --- Section for Full Text Display and Copy ---
+            with gr.Column():
+                # --- CHANGE: Set textbox to display multiple lines ---
+                text_output = gr.Textbox(label="Extracted Text", lines=10, interactive=False)
+                copy_button = gr.Button("📋 Copy Full Text")
 
-    # --- Define the interaction: what happens when the button is clicked ---
+    # --- Define the interaction for the main submit button ---
     submit_button.click(
         fn=ocr_interface,
         inputs=image_input,
@@ -53,10 +59,22 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         api_name="ocr" # You can call this API endpoint
     )
 
+    # --- Define the interaction for the copy button ---
+    copy_button.click(
+        fn=None, 
+        inputs=text_output,
+        outputs=None,
+        js="(text) => { navigator.clipboard.writeText(text) }"
+    ).then(
+        fn=lambda: gr.Info("Text copied to clipboard!"),
+        inputs=None,
+        outputs=None
+    )
+
     gr.Markdown(
         """
         ---
-        Created by **Meysam Kazemi** | This is a Gradio implementation of the OCR tool.
+        Created by **[Your Name]** | This is a Gradio implementation of the OCR tool.
         """
     )
 
