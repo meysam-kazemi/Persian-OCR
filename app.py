@@ -74,7 +74,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.Markdown(
         """
         ---
-        Created by **[Your Name]** | This is a Gradio implementation of the OCR tool.
+        Created by **Meysam Kazemi** | This is a Gradio implementation of the OCR tool.
         """
     )
 
